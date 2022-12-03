@@ -1,6 +1,6 @@
 import rospy
 from geometry_msgs.msg import Twist
-from turtlesim.srv import SetPen, Spawn
+from turtlesim.srv import SetPen, Spawn, Kill
 from std_srvs.srv import Empty
 import sys
 
@@ -28,6 +28,19 @@ def turtle_set_pen(red, green, blue, pen_width, pen_up, name = 'turtle1'):
 		res_m = srv_p(int(red), int(green), int(blue), int(pen_width), int(pen_up))
 	except rospy.ServiceException as e:
 		print('Turtle Set Pen Service failed.')
+		print(e)
+		
+
+def turtle_kill(name):
+	srv_name = 'kill'
+	rospy.wait_for_service(srv_name)
+	try:
+		srv_p = rospy.ServiceProxy(srv_name, Kill)
+		res_m = srv_p(name)
+
+
+	except rospy.ServiceException as e:
+		print('Turtle Reset Service failed.')
 		print(e)
 
 
